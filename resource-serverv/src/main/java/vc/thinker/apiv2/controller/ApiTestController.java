@@ -29,7 +29,7 @@ public class ApiTestController extends BaseController{
 	@Autowired
 	private CabinetRemoteHandle cabinetRemoteHandle;
 	
-	@RequestMapping(value= "/out/{bosId}/{slot}", method = RequestMethod.GET)
+	@RequestMapping(value= "/out/{boxId}/{slot}", method = RequestMethod.GET)
 	@ApiOperation(value = "out", notes = "out")
 	public SimpleResponse out(@PathVariable("boxId")String boxId, @PathVariable("slot") Integer slot) {
 		SimpleResponse resp = new SimpleResponse();
@@ -73,6 +73,18 @@ public class ApiTestController extends BaseController{
 		SimpleResponse resp = new SimpleResponse();
 		try {
 			cabinetRemoteHandle.sync(boxId);
+		} catch (CabinetStatusNotFindException e) {
+			resp.setErrorInfo("400", e.getMessage());
+		}
+		return resp;
+	}
+	
+	@RequestMapping(value= "/setServerIp/{boxId}/{ip}/{port}/{hearbet}", method = RequestMethod.GET)
+	@ApiOperation(value = "setServerIp", notes = "setServerIp")
+	public SimpleResponse setServerIp(@PathVariable("boxId")String boxId, @PathVariable("ip") String ip, String port, Integer hearbet) {
+		SimpleResponse resp = new SimpleResponse();
+		try {
+			cabinetRemoteHandle.synServer(boxId, ip, port, hearbet);
 		} catch (CabinetStatusNotFindException e) {
 			resp.setErrorInfo("400", e.getMessage());
 		}
