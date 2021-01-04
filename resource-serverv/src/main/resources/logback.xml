@@ -29,9 +29,9 @@
 		</rollingPolicy>
 	</appender>
 	
-	<!-- <logger name="org.mybatis" level="DEBUG"/>   
-	<logger name="org.springframework.web" level="DEBUG"/>   
-	<logger name="org.springframework.security" level="INFO"/>    -->
+	<!-- <logger name="org.mybatis" level="DEBUG"/>    -->
+	<!-- <logger name="org.springframework.web" level="DEBUG"/>   
+	<logger name="org.springframework.security" level="INFO"/>   --> 
 	<logger name="vc.thinker" level="INFO"/>
 
 	<root level="INFO">

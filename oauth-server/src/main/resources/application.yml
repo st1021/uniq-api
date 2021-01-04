@@ -36,7 +36,7 @@ spring:
             port: ${spring_data_mongodb_port:10001}
     redis:
         database: 2
-        host: ${ spring_redis_host:localhost}
+        host: ${spring_redis_host:120.26.241.98}
         port: ${spring_redis_port:6379}
         password: ${ spring_redis_password:root123}
     messages:
@@ -57,7 +57,7 @@ management:
         
 # redis        
 redis:
-    host: ${redis_host:localhost}
+    host: ${redis_host:120.26.241.98}
     port: ${redis_port:6379}
     password: ${redis_password:root123}
     timeout: 7000

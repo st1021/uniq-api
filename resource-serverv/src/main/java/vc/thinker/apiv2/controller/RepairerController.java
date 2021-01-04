@@ -183,19 +183,21 @@ public class RepairerController extends BaseController{
 			 * 2.云充吧/伏特加设备使用tcp指令
 			 * 3.云充吧大设备
 			 */
-			CabinetBO bo=cabinetService.findBySysCode(sysCode);
-			if (bo.getTypeId() == CabinetTypeEnum.RELINK.getCode()
-					|| bo.getTypeId() == CabinetTypeEnum.RELINKB.getCode()
-					|| bo.getTypeId() == CabinetTypeEnum.RELINKC.getCode()
-					) {
-				this.outRelink(bo.getCabinetCode(), channel);
-//			} else if (bo.getTypeId() == CabinetTypeEnum.FTJ.getCode() 
-//					|| bo.getTypeId() == CabinetTypeEnum.YCB.getCode() ) {
-//				
-			} else {
-				cabinetRemoteHandle.sysOut(sysCode, channel);
-				redisCacheUtils.set(cacheKey, sysCode, SYS_OUT_SECONDS);
-			}
+//			CabinetBO bo=cabinetService.findBySysCode(sysCode);
+//			if (bo.getTypeId() == CabinetTypeEnum.RELINK.getCode()
+//					|| bo.getTypeId() == CabinetTypeEnum.RELINKB.getCode()
+//					|| bo.getTypeId() == CabinetTypeEnum.RELINKC.getCode()
+//					) {
+//				this.outRelink(bo.getCabinetCode(), channel);
+////			} else if (bo.getTypeId() == CabinetTypeEnum.FTJ.getCode() 
+////					|| bo.getTypeId() == CabinetTypeEnum.YCB.getCode() ) {
+////				
+//			} else {
+//				cabinetRemoteHandle.sysOut(sysCode, channel);
+//				redisCacheUtils.set(cacheKey, sysCode, SYS_OUT_SECONDS);
+//			}
+			cabinetRemoteHandle.sysOut(sysCode, channel);
+			redisCacheUtils.set(cacheKey, sysCode, SYS_OUT_SECONDS);
 		} catch (ServiceException e) {
 			resp.setErrorInfo("406", e.getMessage());
 			return Responses.ok(resp);

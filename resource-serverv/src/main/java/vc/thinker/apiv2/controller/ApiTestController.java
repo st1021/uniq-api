@@ -12,7 +12,9 @@ import io.swagger.annotations.ApiOperation;
 import vc.thinker.apiv2.http.response.SimpleResponse;
 import vc.thinker.apiv2.web.BaseController;
 import vc.thinker.cabbage.se.CabinetRemoteHandle;
+import vc.thinker.cabbage.se.CabinetStatusService;
 import vc.thinker.cabbage.se.exception.CabinetStatusNotFindException;
+import vc.thinker.cabbage.se.model.CabinetStatus;
 
 /**
  * 
@@ -27,39 +29,45 @@ import vc.thinker.cabbage.se.exception.CabinetStatusNotFindException;
 public class ApiTestController extends BaseController{
 
 	@Autowired
+	private CabinetStatusService cabinetStatusService;
+	@Autowired
 	private CabinetRemoteHandle cabinetRemoteHandle;
 	
-	@RequestMapping(value= "/out/{boxId}/{slot}", method = RequestMethod.GET)
-	@ApiOperation(value = "out", notes = "out")
-	public SimpleResponse out(@PathVariable("boxId")String boxId, @PathVariable("slot") Integer slot) {
+	@RequestMapping(value= "/borrow/{sysCode}/{slot}", method = RequestMethod.GET)
+	@ApiOperation(value = "borrow", notes = "borrow")
+	public SimpleResponse borrow(@PathVariable("sysCode")String sysCode, @PathVariable("slot") String slot) {
 		SimpleResponse resp = new SimpleResponse();
 		try {
-			cabinetRemoteHandle.out(boxId, "", String.valueOf(slot));
+			CabinetStatus cs = cabinetStatusService.findBySysCode(sysCode);
+			if(null == cs) {
+				resp.setErrorInfo("400", "sysCode not found.");
+				return resp;
+			}
+			cabinetRemoteHandle.out(cs.getCabinetCode(), cs.getServiceCode(), slot);
 		} catch (CabinetStatusNotFindException e) {
 			resp.setErrorInfo("400", e.getMessage());
 		}
-		
 		return resp;
 	}
 	
-	@RequestMapping(value= "/sysOut/{boxId}/{slot}", method = RequestMethod.GET)
+	@RequestMapping(value= "/sysOut/{sysCode}/{slot}", method = RequestMethod.GET)
 	@ApiOperation(value = "sysOut", notes = "sysOut")
-	public SimpleResponse sysOut(@PathVariable("boxId")String boxId, @PathVariable("slot") Integer slot) {
+	public SimpleResponse sysOut(@PathVariable("sysCode")String sysCode, @PathVariable("slot") Integer slot) {
 		SimpleResponse resp = new SimpleResponse();
 		try {
-			cabinetRemoteHandle.sysOut(boxId, slot);
+			cabinetRemoteHandle.sysOut(sysCode, slot);
 		} catch (CabinetStatusNotFindException e) {
 			resp.setErrorInfo("400", e.getMessage());
 		}
 		return resp;
 	}
 	
-	@RequestMapping(value= "/getServerIp/{boxId}", method = RequestMethod.GET)
+	@RequestMapping(value= "/getServerIp/{sysCode}", method = RequestMethod.GET)
 	@ApiOperation(value = "getServerIp", notes = "getServerIp")
-	public SimpleResponse getServerIp(@PathVariable("boxId")String boxId) {
+	public SimpleResponse getServerIp(@PathVariable("sysCode")String sysCode) {
 		SimpleResponse resp = new SimpleResponse();
 		try {
-			cabinetRemoteHandle.getServerIp(boxId);
+			cabinetRemoteHandle.getServerIp(sysCode);
 		} catch (CabinetStatusNotFindException e) {
 			resp.setErrorInfo("400", e.getMessage());
 		}
@@ -67,24 +75,24 @@ public class ApiTestController extends BaseController{
 	}
 	
 	
-	@RequestMapping(value= "/sync/{boxId}", method = RequestMethod.GET)
+	@RequestMapping(value= "/sync/{sysCode}", method = RequestMethod.GET)
 	@ApiOperation(value = "sync", notes = "sync")
-	public SimpleResponse sync(@PathVariable("boxId")String boxId) {
+	public SimpleResponse sync(@PathVariable("sysCode")String sysCode) {
 		SimpleResponse resp = new SimpleResponse();
 		try {
-			cabinetRemoteHandle.sync(boxId);
+			cabinetRemoteHandle.sync(sysCode);
 		} catch (CabinetStatusNotFindException e) {
 			resp.setErrorInfo("400", e.getMessage());
 		}
 		return resp;
 	}
 	
-	@RequestMapping(value= "/setServerIp/{boxId}/{ip}/{port}/{hearbet}", method = RequestMethod.GET)
+	@RequestMapping(value= "/setServerIp/{sysCode}/{ip}/{port}/{hearbet}", method = RequestMethod.GET)
 	@ApiOperation(value = "setServerIp", notes = "setServerIp")
-	public SimpleResponse setServerIp(@PathVariable("boxId")String boxId, @PathVariable("ip") String ip, String port, Integer hearbet) {
+	public SimpleResponse setServerIp(@PathVariable("sysCode")String sysCode, @PathVariable("ip") String ip, String port, Integer hearbet) {
 		SimpleResponse resp = new SimpleResponse();
 		try {
-			cabinetRemoteHandle.synServer(boxId, ip, port, hearbet);
+			cabinetRemoteHandle.synServer(sysCode, ip, port, hearbet);
 		} catch (CabinetStatusNotFindException e) {
 			resp.setErrorInfo("400", e.getMessage());
 		}
