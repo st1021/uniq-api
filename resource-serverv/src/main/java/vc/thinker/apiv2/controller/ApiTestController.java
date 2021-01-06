@@ -87,9 +87,10 @@ public class ApiTestController extends BaseController{
 		return resp;
 	}
 	
-	@RequestMapping(value= "/setServerIp/{sysCode}/{ip}/{port}/{hearbet}", method = RequestMethod.GET)
+	@RequestMapping(value = "/setServerIp/{sysCode}/{ip}/{port}/{hearbet}", method = RequestMethod.GET)
 	@ApiOperation(value = "setServerIp", notes = "setServerIp")
-	public SimpleResponse setServerIp(@PathVariable("sysCode")String sysCode, @PathVariable("ip") String ip, String port, Integer hearbet) {
+	public SimpleResponse setServerIp(@PathVariable("sysCode") String sysCode, @PathVariable("ip") String ip,
+			@PathVariable("port") String port, @PathVariable("hearbet") Integer hearbet) {
 		SimpleResponse resp = new SimpleResponse();
 		try {
 			cabinetRemoteHandle.synServer(sysCode, ip, port, hearbet);
