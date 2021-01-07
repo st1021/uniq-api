@@ -38,7 +38,7 @@ spring:
         database: 2
         host: ${spring_redis_host:120.26.241.98}
         port: ${spring_redis_port:6379}
-        password: ${ spring_redis_password:root123}
+        password: ${spring_redis_password:root123}
     messages:
         basename: messages/messages
         cache-seconds: 3600

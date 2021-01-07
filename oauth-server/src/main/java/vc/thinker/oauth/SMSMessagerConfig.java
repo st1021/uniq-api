@@ -34,7 +34,7 @@ public class SMSMessagerConfig {
 	private RedisCacheUtils redisCacheUtils;
 
 	@Bean(name="messageHandler")
-	@Profile({"production","test"})
+	@Profile({"prod","test"})
 	public MessageHandler messageHandler(){
 		return  new SMSMessageAlidayuHandler( jedisPool, accountSid,  accountToken);
 	}
@@ -46,7 +46,7 @@ public class SMSMessagerConfig {
 	}
 	
 	@Bean(name="verifyCodeUtil")
-	@Profile({"production","test"})
+	@Profile({"prod"})
 	public VerifyCodeUtil verifyCodeUtil(){
 		return new VerifyCodeUtil();
 	}
